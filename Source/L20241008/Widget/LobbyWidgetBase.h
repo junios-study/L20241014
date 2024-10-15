@@ -36,4 +36,10 @@ public:
 	UFUNCTION()
 	void OnCommittedText(const FText& Text, ETextCommit::Type CommitMethod);
 
+	void SetLeftTime(FString NewLeftTime);
+
+	void SetAliveCount(uint32 NewAliveCount);
+
+	void AddChatMessage(FText AddMessage);
+
 };

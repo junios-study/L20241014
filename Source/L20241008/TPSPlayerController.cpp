@@ -25,3 +25,27 @@ void ATPSPlayerController::BeginPlay()
 		}
 	}
 }
+
+bool ATPSPlayerController::C2S_SendMessage_Validate(const FText& Messsage)
+{
+	return true;
+}
+
+//call client , execute server
+void ATPSPlayerController::C2S_SendMessage_Implementation(FText const& Message)
+{
+	for (auto Iter = GetWorld()->GetPlayerControllerIterator(); Iter; ++Iter )
+	{
+		ATPSPlayerController* PC = Cast< ATPSPlayerController>(*Iter);
+		if (IsValid(PC))
+		{
+			PC->S2C_AddMessage(Message);
+		}
+	}
+}
+
+//call server, execute client
+void ATPSPlayerController::S2C_AddMessage_Implementation(const FText& Messsage)
+{
+	LobbyWidget->AddChatMessage(Messsage);
+}

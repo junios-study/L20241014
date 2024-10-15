@@ -1,10 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "LobbyWidgetBase.h"
 #include "Components/TextBlock.h"
 #include "Components/ScrollBox.h"
 #include "Components/EditableTextBox.h"
+#include "../TPSPlayerController.h"
 
 
 void ULobbyWidgetBase::NativeConstruct()
@@ -19,7 +20,6 @@ void ULobbyWidgetBase::NativeConstruct()
 	{
 		ChatBox->OnTextCommitted.AddDynamic(this, &ULobbyWidgetBase::OnCommittedText);
 	}
-
 }
 
 void ULobbyWidgetBase::OnCommittedText(const FText& Text, ETextCommit::Type CommitMethod)
@@ -27,8 +27,44 @@ void ULobbyWidgetBase::OnCommittedText(const FText& Text, ETextCommit::Type Comm
 	switch (CommitMethod)
 	{
 	case ETextCommit::OnEnter:
+	{
+		ATPSPlayerController* PC = Cast<ATPSPlayerController>(GetOwningPlayer());
+		if (IsValid(PC))
+		{
+			PC->C2S_SendMessage(Text);
+		}
+		ChatBox->SetText(FText::FromString(TEXT("")));
 		break;
+	}
 	case ETextCommit::OnCleared:
+		ChatBox->SetUserFocus(GetOwningPlayer());
 		break;
+	}
+}
+
+void ULobbyWidgetBase::SetLeftTime(FString NewLeftTime)
+{
+	FString Temp = FString::Printf(TEXT("%s초 남았습니다."), *NewLeftTime);
+	LeftTime->SetText(FText::FromString(Temp));
+}
+
+void ULobbyWidgetBase::SetAliveCount(uint32 NewAliveCount)
+{
+	FString Temp = FString::Printf(TEXT("%d명"), NewAliveCount);
+
+	AliveCount->SetText(FText::FromString(Temp));
+}
+
+void ULobbyWidgetBase::AddChatMessage(FText AddMessage)
+{
+	UTextBlock* NewText = NewObject<UTextBlock>(ChatScroll);
+	if (IsValid(NewText))
+	{
+		NewText->SetText(AddMessage);
+		FSlateFontInfo NewFont = NewText->GetFont();
+		NewFont.Size = 18.0f;
+		NewText->SetFont(NewFont);
+		ChatScroll->AddChild(NewText);
+		ChatScroll->ScrollToEnd();
 	}
 }
