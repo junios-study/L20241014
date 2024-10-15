@@ -6,6 +6,10 @@
 #include "Blueprint/UserWidget.h"
 #include "LobbyWidgetBase.generated.h"
 
+
+class UScrollBox;
+class UEditableTextBox;
+class UTextBlock;
 /**
  * 
  */
@@ -20,5 +24,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
 	class UTextBlock* LeftTime;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	class UTextBlock* AliveCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	class UScrollBox* ChatScroll;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	class UEditableTextBox* ChatBox;
+
+	UFUNCTION()
+	void OnCommittedText(const FText& Text, ETextCommit::Type CommitMethod);
 
 };
