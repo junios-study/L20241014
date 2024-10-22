@@ -17,9 +17,12 @@ class L20241008_API ATPSPlayerState : public APlayerState
 public:
 	ATPSPlayerState();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State", Replicated)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State", ReplicatedUsing = "OnRep_ReadyState")
 	uint8 bReadyState : 1;
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION()
+	void OnRep_ReadyState();
 
 };

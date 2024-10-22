@@ -20,6 +20,8 @@ void ULobbyWidgetBase::NativeConstruct()
 	ChatScroll = Cast<UScrollBox>(GetWidgetFromName(TEXT("ChatScroll")));
 	ChatBox = Cast<UEditableTextBox>(GetWidgetFromName(TEXT("ChatBox")));
 	ReadyButton = Cast<UButton>(GetWidgetFromName(TEXT("ReadyButton")));
+	StartButton = Cast<UButton>(GetWidgetFromName(TEXT("StartButton")));
+
 	if (ChatBox)
 	{
 		ChatBox->OnTextCommitted.AddDynamic(this, &ULobbyWidgetBase::OnCommittedText);
@@ -27,6 +29,10 @@ void ULobbyWidgetBase::NativeConstruct()
 	if (ReadyButton)
 	{
 		ReadyButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::ProcessClicked);
+	}
+	if (StartButton)
+	{
+		//StartButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::ProcessClicked);
 	}
 }
 
@@ -85,5 +91,19 @@ void ULobbyWidgetBase::AddChatMessage(FText AddMessage)
 		NewText->SetFont(NewFont);
 		ChatScroll->AddChild(NewText);
 		ChatScroll->ScrollToEnd();
+	}
+}
+
+void ULobbyWidgetBase::ShowStartrButton(bool Server)
+{
+	if (Server)
+	{
+		ReadyButton->SetVisibility(ESlateVisibility::Collapsed);
+		StartButton->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		ReadyButton->SetVisibility(ESlateVisibility::Visible);
+		StartButton->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

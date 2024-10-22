@@ -41,6 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
 	UButton* ReadyButton;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	UButton* StartButton;
+
 	UFUNCTION()
 	void OnCommittedText(const FText& Text, ETextCommit::Type CommitMethod);
 
@@ -49,5 +52,7 @@ public:
 	void SetAliveCount(uint32 NewAliveCount);
 
 	void AddChatMessage(FText AddMessage);
+
+	void ShowStartrButton(bool Server);
 
 };

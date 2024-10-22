@@ -17,3 +17,8 @@ void ATPSPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 //	DOREPLIFETIME_CONDITION()
 }
 
+void ATPSPlayerState::OnRep_ReadyState()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetName());
+}
+

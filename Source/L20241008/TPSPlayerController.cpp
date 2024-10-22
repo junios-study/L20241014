@@ -4,11 +4,15 @@
 #include "TPSPlayerController.h"
 #include "Widget/LobbyWidgetBase.h"
 #include "TPSPlayerState.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 void ATPSPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	FString Temp = FString::Printf(TEXT("%s %d %d"), *GetName(), GetLocalRole(), GetRemoteRole());
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *Temp);
 
 	//#include
 	FSoftClassPath LobbyWidgetClassPath(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Blueprints/UMG/WBP_Lobby.WBP_Lobby_C'"));
@@ -25,6 +29,21 @@ void ATPSPlayerController::BeginPlay()
 				SetInputMode(FInputModeGameAndUI());
 				//bShowMouseCursor = true;
 				SetShowMouseCursor(true);
+
+
+				//Standalone, ListenServer, DedicatedServer 코드 잘 작동하게 설계 해야됨
+				if (GetLocalRole() == ENetRole::ROLE_Authority && GetRemoteRole() == ENetRole::ROLE_SimulatedProxy)
+				{
+					//Server, PC
+					//LobbyWidget->ShowStartrButton(HasAuthority());
+					LobbyWidget->ShowStartrButton(true);
+				}
+				else
+				{
+					LobbyWidget->ShowStartrButton(false);
+				}
+				
+				//LobbyWidget->ShowStartrButton(UKismetSystemLibrary::IsServer(GetWorld()));
 			}
 		}
 	}
@@ -59,7 +78,9 @@ void ATPSPlayerController::C2S_SendReadyState_Implementation(bool NewState)
 	ATPSPlayerState* PS = GetPlayerState<ATPSPlayerState>();
 	if (IsValid(PS))
 	{
-		//Server PlayerState 값변경, 자동 복제
+		//Server PlayerState 값변경, 자동 복제, Notify X
 		PS->bReadyState = NewState;
+		//Server
+		PS->OnRep_ReadyState();
 	}
 }
