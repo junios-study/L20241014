@@ -32,4 +32,7 @@ public:
 	void S2C_AddMessage(const FText& Messsage);
 	void S2C_AddMessage_Implementation(const FText& Messsage);
 	
+	UFUNCTION(Client, UnReliable)
+	void C2S_SendReadyState(bool NewState);
+	void C2S_SendReadyState_Implementation(bool NewState);
 };

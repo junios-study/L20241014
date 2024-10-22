@@ -6,6 +6,9 @@
 #include "Components/ScrollBox.h"
 #include "Components/EditableTextBox.h"
 #include "../TPSPlayerController.h"
+#include "Components/Button.h"
+#include "../TPSPlayerState.h"
+
 
 
 void ULobbyWidgetBase::NativeConstruct()
@@ -16,9 +19,25 @@ void ULobbyWidgetBase::NativeConstruct()
 	AliveCount = Cast<UTextBlock>(GetWidgetFromName(TEXT("AliveCount")));
 	ChatScroll = Cast<UScrollBox>(GetWidgetFromName(TEXT("ChatScroll")));
 	ChatBox = Cast<UEditableTextBox>(GetWidgetFromName(TEXT("ChatBox")));
+	ReadyButton = Cast<UButton>(GetWidgetFromName(TEXT("ReadyButton")));
 	if (ChatBox)
 	{
 		ChatBox->OnTextCommitted.AddDynamic(this, &ULobbyWidgetBase::OnCommittedText);
+	}
+	if (ReadyButton)
+	{
+		ReadyButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::ProcessClicked);
+	}
+}
+
+void ULobbyWidgetBase::ProcessClicked()
+{
+	ATPSPlayerState* PS = GetOwningPlayerState<ATPSPlayerState>();
+	ATPSPlayerController* PC = GetOwningPlayer<ATPSPlayerController>();
+	if (IsValid(PS) && IsValid(PC))
+	{
+		PC->C2S_SendReadyState(!PS->bReadyState);
+		UE_LOG(LogTemp, Warning, TEXT("State %d"), PS->bReadyState);
 	}
 }
 

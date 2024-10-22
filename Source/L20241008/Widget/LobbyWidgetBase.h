@@ -10,6 +10,8 @@
 class UScrollBox;
 class UEditableTextBox;
 class UTextBlock;
+class UButton;
+
 /**
  * 
  */
@@ -21,17 +23,23 @@ class L20241008_API ULobbyWidgetBase : public UUserWidget
 public:
 	virtual void NativeConstruct();
 
+	UFUNCTION()
+	void ProcessClicked();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
-	class UTextBlock* LeftTime;
+	UTextBlock* LeftTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	class UTextBlock* AliveCount;
+	UTextBlock* AliveCount;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	class UScrollBox* ChatScroll;
+	UScrollBox* ChatScroll;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
-	class UEditableTextBox* ChatBox;
+	UEditableTextBox* ChatBox;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	UButton* ReadyButton;
 
 	UFUNCTION()
 	void OnCommittedText(const FText& Text, ETextCommit::Type CommitMethod);
