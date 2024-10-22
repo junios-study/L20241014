@@ -32,9 +32,15 @@ void ULobbyWidgetBase::NativeConstruct()
 	}
 	if (StartButton)
 	{
-		//StartButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::ProcessClicked);
+		StartButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::ProcessStartButtonClicked);
 	}
 }
+
+void ULobbyWidgetBase::ProcessStartButtonClicked()
+{
+	GetWorld()->ServerTravel(TEXT("InGame"));
+}
+
 
 void ULobbyWidgetBase::ProcessClicked()
 {

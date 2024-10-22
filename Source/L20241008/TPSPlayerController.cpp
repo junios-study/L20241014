@@ -6,6 +6,7 @@
 #include "TPSPlayerState.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Components/Button.h"
 
 void ATPSPlayerController::BeginPlay()
 {
@@ -82,5 +83,30 @@ void ATPSPlayerController::C2S_SendReadyState_Implementation(bool NewState)
 		PS->bReadyState = NewState;
 		//Server
 		PS->OnRep_ReadyState();
+		
+		uint8 TotalReadCount = 0;
+		TArray<AActor*> FindActors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATPSPlayerState::StaticClass(), FindActors);
+		for (auto FindActor : FindActors)
+		{
+			ATPSPlayerState* FindPS = Cast<ATPSPlayerState>(FindActor);
+			if (IsValid(FindPS))
+			{
+				if (FindPS->bReadyState)
+				{
+					TotalReadCount++;
+				}
+			}
+		}
+
+
+
+		ATPSPlayerController* PC = Cast<ATPSPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+		//Get Server PlayerController
+		if (PC && PC->LobbyWidget)
+		{
+			//Start È°¼ºÈ­
+			PC->LobbyWidget->StartButton->SetIsEnabled((FindActors.Num() - 1 == TotalReadCount)); // bIsEnabled = true;
+		}
 	}
 }

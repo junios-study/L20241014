@@ -24,6 +24,9 @@ public:
 	virtual void NativeConstruct();
 
 	UFUNCTION()
+	void ProcessStartButtonClicked();
+
+	UFUNCTION()
 	void ProcessClicked();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
