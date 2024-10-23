@@ -6,7 +6,10 @@
 
 void ATPSGameStateBase::OnRep_PlayerCount()
 {
-	OnChangePlayerCount.Broadcast((uint32)PlayerCount);
+	if (OnChangePlayerCount.IsBound())
+	{
+		OnChangePlayerCount.Broadcast((uint32)PlayerCount);
+	}
 }
 
 void ATPSGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

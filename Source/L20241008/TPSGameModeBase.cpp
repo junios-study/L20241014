@@ -30,6 +30,7 @@ void ATPSGameModeBase::PostLogin(APlayerController* NewPlayer)
 		{
 			//살아있는 폰 갯수 세기
 			GS->PlayerCount++;
+			GS->OnRep_PlayerCount();
 		}
 
 		UE_LOG(LogTemp, Warning, TEXT("Connect Count %d"), GS->PlayerCount);

@@ -6,7 +6,8 @@
 #include "GameFramework/GameStateBase.h"
 #include "TPSGameStateBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FChangePlayerCount, ATPSGameStateBase, OnChangePlayerCount, uint32, NewAliveCount);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangePlayerCount, uint32, NewAliveCount);
+//DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FChangePlayerCount, ATPSGameStateBase, OnChangePlayerCount, uint32, NewAliveCount);
 
 /**
  * 
