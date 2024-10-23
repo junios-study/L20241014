@@ -17,6 +17,9 @@ class L20241008_API ATPSGameModeBase : public AGameModeBase
 public:
 	virtual void PreLogin(const FString& Options, const FString& Address, const FUniqueNetIdRepl& UniqueId, FString& ErrorMessage) override;
 
+	UFUNCTION()
+	void ProcessLeftTime();
+
 	virtual APlayerController* Login(UPlayer* NewPlayer, ENetRole InRemoteRole, const FString& Portal, const FString& Options,
 		const FUniqueNetIdRepl& UniqueId, FString& ErrorMessage) override;
 
@@ -25,7 +28,10 @@ public:
 
 	virtual void Logout(AController* Exiting) override;
 
+	virtual void BeginPlay() override;
 
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	FTimerHandle LeftTimeHandler;
 	
 };
