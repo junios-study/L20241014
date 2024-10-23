@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UEditableTextBox> ServerIP;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UEditableTextBox> UserName;
+
 	UFUNCTION()
 	void ProcessStartServerButtonClick();
 

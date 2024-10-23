@@ -11,7 +11,7 @@
 #include "../TPSGameStateBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "../TPSGameModeBase.h"
-
+#include "../MyGameInstanceSubsystem.h"
 
 
 
@@ -86,7 +86,15 @@ void ULobbyWidgetBase::OnCommittedText(const FText& Text, ETextCommit::Type Comm
 		ATPSPlayerController* PC = Cast<ATPSPlayerController>(GetOwningPlayer());
 		if (IsValid(PC))
 		{
-			PC->C2S_SendMessage(Text);
+			UGameInstance* GameInstance = UGameplayStatics::GetGameInstance(GetWorld());
+			UMyGameInstanceSubsystem* MySubsystem = GameInstance->GetSubsystem<UMyGameInstanceSubsystem>();
+			FString Message = "";
+			if (IsValid(MySubsystem))
+			{
+				Message = FString::Printf(TEXT("%s : %s"), *MySubsystem->UserName, *Text.ToString());
+			}
+
+			PC->C2S_SendMessage(FText::FromString(Message));
 		}
 		ChatBox->SetText(FText::FromString(TEXT("")));
 		break;
