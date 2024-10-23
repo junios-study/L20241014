@@ -39,10 +39,10 @@ void ULobbyWidgetBase::NativeConstruct()
 		StartButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::ProcessStartButtonClicked);
 	}
 
-	ATPSGameModeBase* GM = Cast<ATPSGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (IsValid(GM))
+	ATPSGameStateBase* GS = Cast<ATPSGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
+	if (IsValid(GS))
 	{
-		GM->OnChangePlayerCount.AddDynamic(this, &ULobbyWidgetBase::SetAliveCount);
+		GS->OnChangePlayerCount.AddDynamic(this, &ULobbyWidgetBase::SetAliveCount);
 	}
 }
 
@@ -52,11 +52,12 @@ void ULobbyWidgetBase::NativeConstruct()
 //Delegate -> 함수 포인터 -> 디자인 패턴(Delegate 패턴) -> C#, java, -> BP Event Dispatcher -> Bind
 void ULobbyWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
-	ATPSGameStateBase* GS = Cast<ATPSGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
-	if (IsValid(GS))
-	{
-		SetAliveCount(GS->PlayerCount);
-	}
+	Super::NativeTick(MyGeometry, InDeltaTime);
+	//ATPSGameStateBase* GS = Cast<ATPSGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
+	//if (IsValid(GS))
+	//{
+	//	SetAliveCount(GS->PlayerCount);
+	//}
 }
 
 void ULobbyWidgetBase::ProcessStartButtonClicked()
