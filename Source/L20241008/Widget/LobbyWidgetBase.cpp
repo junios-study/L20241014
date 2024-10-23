@@ -10,6 +10,8 @@
 #include "../TPSPlayerState.h"
 #include "../TPSGameStateBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "../TPSGameModeBase.h"
+
 
 
 
@@ -35,6 +37,12 @@ void ULobbyWidgetBase::NativeConstruct()
 	if (StartButton)
 	{
 		StartButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::ProcessStartButtonClicked);
+	}
+
+	ATPSGameModeBase* GM = Cast<ATPSGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (IsValid(GM))
+	{
+		GM->OnChangePlayerCount.AddDynamic(this, &ULobbyWidgetBase::SetAliveCount);
 	}
 }
 

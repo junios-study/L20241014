@@ -55,6 +55,7 @@ public:
 
 	void SetLeftTime(FString NewLeftTime);
 
+	UFUNCTION()
 	void SetAliveCount(uint32 NewAliveCount);
 
 	void AddChatMessage(FText AddMessage);

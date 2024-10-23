@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+`
 #include "TPSPlayerController.h"
 #include "Widget/LobbyWidgetBase.h"
 #include "TPSPlayerState.h"
@@ -30,7 +30,6 @@ void ATPSPlayerController::BeginPlay()
 				SetInputMode(FInputModeGameAndUI());
 				//bShowMouseCursor = true;
 				SetShowMouseCursor(true);
-
 
 				//Standalone, ListenServer, DedicatedServer 코드 잘 작동하게 설계 해야됨
 				if (GetLocalRole() == ENetRole::ROLE_Authority && GetRemoteRole() == ENetRole::ROLE_SimulatedProxy)

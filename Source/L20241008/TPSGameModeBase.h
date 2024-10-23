@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "TPSGameModeBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(FChangePlayerCount, ATPSGameModeBase, OnChangePlayerCount, uint32, NewAliveCount);
 /**
  * 
  */
@@ -23,6 +24,9 @@ public:
 
 
 	virtual void Logout(AController* Exiting) override;
+
+	UPROPERTY(BlueprintAssignable, Category = "Data")
+	FChangePlayerCount OnChangePlayerCount;
 
 	
 };

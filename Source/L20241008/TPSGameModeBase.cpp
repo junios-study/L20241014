@@ -33,6 +33,8 @@ void ATPSGameModeBase::PostLogin(APlayerController* NewPlayer)
 		}
 
 		UE_LOG(LogTemp, Warning, TEXT("Connect Count %d"), GS->PlayerCount);
+
+		OnChangePlayerCount.Broadcast((uint32)GS->PlayerCount);
 	}
 
 
