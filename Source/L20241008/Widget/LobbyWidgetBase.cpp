@@ -8,6 +8,8 @@
 #include "../TPSPlayerController.h"
 #include "Components/Button.h"
 #include "../TPSPlayerState.h"
+#include "../TPSGameStateBase.h"
+#include "Kismet/GameplayStatics.h"
 
 
 
@@ -33,6 +35,19 @@ void ULobbyWidgetBase::NativeConstruct()
 	if (StartButton)
 	{
 		StartButton->OnClicked.AddDynamic(this, &ULobbyWidgetBase::ProcessStartButtonClicked);
+	}
+}
+
+//성능상 문제, Tick 값 가져와야 되나?
+//클래스간 의존성
+//수정 방법론
+//Delegate -> 함수 포인터 -> 디자인 패턴(Delegate 패턴) -> C#, java, -> BP Event Dispatcher -> Bind
+void ULobbyWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	ATPSGameStateBase* GS = Cast<ATPSGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
+	if (IsValid(GS))
+	{
+		SetAliveCount(GS->PlayerCount);
 	}
 }
 

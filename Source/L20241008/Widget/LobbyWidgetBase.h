@@ -21,7 +21,10 @@ class L20241008_API ULobbyWidgetBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	virtual void NativeConstruct();
+	virtual void NativeConstruct() override;
+
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
 
 	UFUNCTION()
 	void ProcessStartButtonClicked();
